@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Search }  from './Components/Search'
 import { Spinner } from './Components/Spinner'
 import { MovieCard } from './Components/MovieCard';
+import { useDebounce } from 'react-use';
 import './App.css'
 
 // const API_BASE_URL = 'https://api.themoviedb.org/3/discover/movie';
@@ -22,6 +23,12 @@ const App = () => {
   const[errorMessage, setErrorMessage] = useState('');
   const [allMovies, setAllMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+
+  // Debounce the search term/query to avoid unnecessary API calls by waiting for the user to stop typing for 500ms(0.5 seconds)
+  useDebounce(() => {
+    setDebouncedSearchQuery(searchQuery);
+  }, 500, [searchQuery]);
 
   const fetchMovies = async(query = '') => {
     setIsLoading(true);
@@ -56,8 +63,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    fetchMovies(searchQuery);
-  }, [searchQuery])
+    fetchMovies(debouncedSearchQuery);
+  }, [debouncedSearchQuery])
 
   return (
     <main>
@@ -65,7 +72,7 @@ const App = () => {
 
       <div className="container">
         <header>
-          <img src="../public/hero-img.png" alt="Hero Banner" />
+          <img src="/hero-img.png" alt="Hero Banner" />
           <h1>
             Find <span className='text-gradient'>Movies</span> You Love To Watch Without the Hassle
           </h1>
