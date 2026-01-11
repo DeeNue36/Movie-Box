@@ -3,7 +3,7 @@ import React from 'react'
 export const MovieCard = ({movie: {title, vote_average, release_date, poster_path, original_language} }) => {
     return (
         <div className='movie-card'>
-            <img src={poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : '../../public/No-Movie-Poster.png'} alt={title} />
+            <img src={poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : '/No-Movie-Poster.png'} alt={title} />
 
             <div className='mt-4'>
                 <h3>{title}</h3>
@@ -11,7 +11,7 @@ export const MovieCard = ({movie: {title, vote_average, release_date, poster_pat
 
             <div className="content">
                 <div className="rating">
-                    <img src="../../public/star.svg" alt="star" />
+                    <img src="/star.svg" alt="star" />
                     <p>{vote_average ? vote_average.toFixed(1) : 'N/A'}</p>
                 </div>
 
