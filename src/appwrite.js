@@ -1,4 +1,4 @@
-import { Client, Databases, ID, Query, TablesDB  } from 'appwrite';
+import { Client, ID, Query, TablesDB  } from 'appwrite';
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
@@ -6,7 +6,6 @@ const TABLE_ID = import.meta.env.VITE_APPWRITE_TABLE_ID;
 
 const client = new Client().setEndpoint('https://sfo.cloud.appwrite.io/v1').setProject(PROJECT_ID);
 
-// const database = client.database(DATABASE_ID);
 const tablesDB = new TablesDB(client);
 
 
@@ -15,8 +14,6 @@ export const updateSearchCount = async (searchQuery, movie) => {
 
     // 1. Use the Appwrite SDK to check if the search query exists in the database
     try {
-        console.log('Calling listRows with:', { DATABASE_ID, TABLE_ID, searchQuery });
-
         const results = await tablesDB.listRows({
             databaseId: DATABASE_ID,
             tableId: TABLE_ID,
@@ -25,11 +22,10 @@ export const updateSearchCount = async (searchQuery, movie) => {
             ]
         });
 
-        console.log('ListRows result:', results);
-
         // 2. If it does, update the search count
-        if (results.total > 0) {
-            const document = results.documents[0];
+        // if (results?.total > 0 && results?.rows?.[0]) {
+        if (results.total > 0 ) {
+            const document = results.rows[0];
             await tablesDB.updateRow({
                 databaseId: DATABASE_ID,
                 tableId: TABLE_ID,
@@ -37,13 +33,9 @@ export const updateSearchCount = async (searchQuery, movie) => {
                 data: {
                     searchCount: document.searchCount + 1
                 }
-            }).then(() => {
-                console.log('Successfully updated row');
-            }).catch((err) => {
-                console.error('UpdateRow failed:', err);
             });
         }
-        // 3. If it doesn't, create a new movie object with the search query and search count set to 1
+        // 3. If it doesn't, create a new movie object with the search query and set search count to 1
         else {
             await tablesDB.createRow({
                 databaseId: DATABASE_ID,
@@ -58,6 +50,24 @@ export const updateSearchCount = async (searchQuery, movie) => {
             });
         }
 
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+
+export const getTrendingMovies = async () => {
+    try {
+        const results = await tablesDB.listRows({
+            databaseId: DATABASE_ID,
+            tableId: TABLE_ID,
+            queries: [
+                Query.limit(5),
+                Query.orderDesc('searchCount')
+            ]
+        });
+        return results.rows;
     }
     catch (error) {
         console.error(error);
