@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Search }  from './Components/Search'
 import { Spinner } from './Components/Spinner'
 import { MovieCard } from './Components/MovieCard';
+import { MovieDetails } from './Components/MovieDetails';
 import { useDebounce } from 'react-use';
 import { updateSearchCount, getTrendingMovies } from './appwrite';
 import './App.css'
@@ -19,9 +21,9 @@ const API_OPTIONS = {
   }
 }
 
-const App = () => {
+const Home = ({ onMovieClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const[errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [allMovies, setAllMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
@@ -83,7 +85,8 @@ const App = () => {
 
   useEffect(() => {
     fetchTrendingMovies();
-  }, [])
+  }, []);
+
 
   return (
     <main>
@@ -115,7 +118,6 @@ const App = () => {
 
         <section className='all-movies'>
           <h2>All Movies</h2>
-
           {isLoading ? (
             <Spinner />
           ) : errorMessage ? (
@@ -123,15 +125,32 @@ const App = () => {
           ) : (
             <ul>
               {allMovies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} onClick={() => onMovieClick(movie.id)}/>
               ))}
             </ul>
           )
           }
-
         </section>
+
       </div>
     </main>
+  )
+}
+
+const App = () => {
+  const [movieDetails, setMovieDetails] = useState(null);
+
+  const handleMovieClick = (movieId) => {
+    setMovieDetails(movieId);
+  }
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home onMovieClick={handleMovieClick}/>} />
+        <Route path="/movie/:id" element={<MovieDetails movieDetails={movieDetails} />} />
+      </Routes>
+    </Router>
   )
 }
 
