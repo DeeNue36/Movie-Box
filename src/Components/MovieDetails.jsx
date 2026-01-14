@@ -106,7 +106,51 @@ export const MovieDetails = () => {
 
                             <span>•</span>
                             <p className="year">{movieDetails.release_date ? movieDetails.release_date.split('-')[0] : 'N/A'}</p>
+                            {movieDetails.runtime && (
+                                <>
+                                    <span>•</span>
+                                    <p className="runtime">{movieDetails.runtime} minutes</p>
+                                </>
+                            )}
                         </div>
+
+                        <div className="movie-overview">
+                            <h3>Overview</h3>
+                            <p>{movieDetails.overview || 'No overview available.'}</p>
+                        </div>
+
+                        {movieDetails.genres && movieDetails.genres.length > 0 && (
+                            <div className="movie-genres">
+                                <h3>Genres</h3>
+                                <ul className="genres-list">
+                                    {movieDetails.genres.map((genre) => (
+                                        <li key={genre.id} className="genre-tag">
+                                            {genre.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {movieDetails.cast && movieDetails.cast.length > 0 && (
+                            <div className="movie-cast">
+                                <h3>Cast</h3>
+                                <div className="cast-list">
+                                    {movieDetails.cast.slice(0, 8).map((actor) => (
+                                        <div key={actor.id} className="cast-member">
+                                            <p className="actor-name">{actor.name}</p>
+                                            <p className="character-name">{actor.character}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {movieDetails.homepage && (
+                            <a href={movieDetails.homepage} target="_blank" rel="noopener noreferrer" className="movie-homepage-link">
+                                Visit Official Website →
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>
