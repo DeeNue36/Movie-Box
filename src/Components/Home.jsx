@@ -17,7 +17,7 @@ export const Home = ({ onMovieClick }) => {
     // Debounce the search term/query to avoid unnecessary API calls by waiting for the user to stop typing for 500ms(0.5 seconds)
     useDebounce(() => {
         setDebouncedSearchQuery(searchQuery);
-    }, 500, [searchQuery]);
+    }, 1000, [searchQuery]);
 
     const fetchMovies = async(query = '') => {
         setIsLoading(true);
