@@ -160,3 +160,144 @@
         display: none;
     }
 }
+
+/* Movie Details Page Styles */
+.movie-details-page {
+    @apply min-h-screen relative;
+}
+
+.movie-details-container {
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.back-btn {
+    @apply inline-flex items-center text-light-100 no-underline text-base transition-[color] duration-200 mb-8 hover:text-white cursor-pointer;
+}
+
+.movie-details-content {
+    @apply flex flex-col gap-8 mt-4 md:flex-row md:gap-12;
+}
+
+.movie-details-image {
+    @apply shrink-0;
+}
+
+.movie-details-image img {
+    @apply w-full max-w-[350px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] rounded-2xl md:max-w-[400px];
+}
+
+.movie-details-info {
+    @apply flex-1 min-w-0;
+}
+
+.movie-details-info h1 {
+    @apply text-[2rem] text-left font-bold text-[white] leading-[1.2] md:text-[2.5rem];
+}
+
+.movie-status, .movie-release-date {
+    @apply text-[#D6C7FF] text-base italic;
+}
+
+.movie-release-date {
+    @apply mb-6 
+}
+
+.tagline {
+    @apply text-[#a8b5db] italic mb-6;
+}
+
+.movie-meta {
+    @apply flex flex-wrap items-center gap-3 mb-8;
+}
+
+.movie-meta .rating {
+    @apply flex items-center gap-1;
+}
+
+.movie-meta .rating img {
+    @apply w-5 h-5;
+}
+
+.movie-meta .rating p {
+    @apply font-bold text-[white] text-base;
+}
+
+.movie-meta span {
+    @apply text-[#9ca4ab];
+}
+
+.movie-meta .lang,
+.movie-meta .year,
+.movie-meta .runtime {
+    @apply text-gray-300;
+}
+
+.movie-budget,
+.movie-overview,
+.movie-genres,
+.movie-cast {
+    @apply mb-6;
+}
+
+.movie-overview h3,
+.movie-genres h3,
+.movie-cast h3,
+.movie-budget h3,
+.movie-production-companies h3 {
+    @apply text-[white] text-xl font-semibold mb-3;
+}
+
+.companies-list {
+    @apply flex flex-wrap gap-2 mb-6;
+}
+
+.movie-overview p, .movie-budget span {
+    @apply text-gray-300 leading-[1.7];
+}
+
+.movie-budget span {
+    @apply ml-2.5;
+}
+
+.genres-list {
+    @apply flex flex-wrap gap-2;
+}
+
+.genre-tag, .company-card {
+    @apply text-[#cecefb] text-sm px-4 py-1.5 rounded-full;
+    background: rgba(168, 181, 219, 0.15);
+}
+
+.cast-list {
+    @apply flex flex-col gap-3;
+}
+
+.cast-member {
+    @apply flex gap-4;
+}
+
+.actor-name {
+    @apply text-[white] font-medium;
+}
+
+.character-name {
+    @apply text-[#9ca4ab];
+}
+
+.movie-homepage-link {
+    @apply inline-block text-[#cecefb] no-underline font-medium transition-[color] duration-[0.2s] mt-4 hover:text-white;
+}
+
+.error-message {
+    @apply text-red-500 text-center mt-12;
+}
+
+@media (max-width: 767px) {
+    .movie-details-image img {
+        @apply max-w-[200px];
+    }
+    .movie-details-info h1 {
+        @apply text-[1.75rem];
+    }
+}
