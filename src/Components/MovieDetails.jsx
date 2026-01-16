@@ -143,20 +143,6 @@ export const MovieDetails = () => {
                             </div>
                         )}
 
-                        {movieDetails.cast && movieDetails.cast.length > 0 && (
-                            <div className="movie-cast">
-                                <h3>Cast</h3>
-                                <div className="cast-list">
-                                    {movieDetails.cast.slice(0, 8).map((actor) => (
-                                        <div key={actor.id} className="cast-member">
-                                            <p className="actor-name">{actor.name}</p>
-                                            <p className="character-name">{actor.character}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
                         {movieDetails.homepage && (
                             <a href={movieDetails.homepage} target="_blank" rel="noopener noreferrer" className="movie-homepage-link">
                                 Visit Official Website →
