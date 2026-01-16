@@ -82,6 +82,8 @@ export const MovieDetails = () => {
 
                     <div className="movie-details-info">
                         <h1>{movieDetails.title}</h1>
+                        <p className="movie-status">Status: {movieDetails.status}</p>
+                        <p className="movie-release-date">Release Date: {movieDetails.release_date ? movieDetails.release_date : 'N/A'}</p>
 
                         {movieDetails.tagline && <p className="tagline">"{movieDetails.tagline}"</p>}
 
@@ -104,10 +106,29 @@ export const MovieDetails = () => {
                             )}
                         </div>
 
+                        <div className="movie-budget">
+                            <h3>Budget:
+                                <span>{movieDetails.budget ? `$${movieDetails.budget.toLocaleString()}` : 'N/A'}</span>
+                            </h3>
+                        </div>
+
                         <div className="movie-overview">
                             <h3>Overview</h3>
                             <p>{movieDetails.overview || 'No overview available.'}</p>
                         </div>
+
+                        {movieDetails.production_companies && movieDetails.production_companies.length > 0 && (
+                            <div className="movie-production-companies">
+                                <h3>Production Companies</h3>
+                                <div className="companies-list">
+                                    {movieDetails.production_companies.map((company) => (
+                                        <div className="company-card">
+                                            <span className="company-name">{company.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {movieDetails.genres && movieDetails.genres.length > 0 && (
                             <div className="movie-genres">
