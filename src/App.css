@@ -161,7 +161,7 @@
     }
 }
 
-/* Movie Details Page Styles */
+/** Movie Details Page Styles */
 .movie-details-page {
     @apply min-h-screen relative;
 }
@@ -300,4 +300,46 @@
     .movie-details-info h1 {
         @apply text-[1.75rem];
     }
+}
+
+
+/** Pagination */
+
+/* Pagination Container */
+.pagination {
+    @apply flex justify-center items-center gap-8 flex-wrap mx-0 my-8 p-4;
+}
+
+/* Page Info Container */
+.page-info {
+    @apply flex flex-col items-center gap-1;
+}
+.page-no {
+    /* @apply flex flex-col items-center gap-1; */
+    @apply text-center text-[#9ca3af] text-[0.9rem];
+}
+
+/* Results Count Text */
+.results-count {
+    @apply text-gray-400 text-[0.85rem];
+}
+.results-count strong {
+    @apply text-gray-100;
+}
+
+/* Page Numbers */
+.page-numbers {
+    @apply text-gray-300 text-[0.9rem];
+}
+
+/* Pagination Buttons */
+.pagination-btn {
+    @apply text-[white] font-semibold cursor-pointer transition-all duration-[0.3s] ease-[ease] h-[inherit] px-6 py-[10px] rounded-lg border-[none] disabled:cursor-not-allowed disabled:opacity-60;
+    background: linear-gradient(to right, #8b5cf6, #6366f1);
+}
+.pagination-btn:hover:not(:disabled) {
+    @apply -translate-y-0.5 shadow-[0_4px_12px_rgba(99,102,241,0.4)];
+}
+.pagination-btn:disabled {
+    background: #4b5563;
 }
