@@ -14,17 +14,22 @@ export const Home = ({ onMovieClick }) => {
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [trendingMovies, setTrendingMovies] = useState([]);
 
+    // States to track pages and total number of movies
+    const [currentPage, setCurrentPage] = useState(1); // Current page number
+    const [totalPages, setTotalPages] = useState(0); // Total number of pages from API response
+    const [totalMovies, setTotalMovies] = useState(0); // Total number of movie results from API response
+
     // Debounce the search term/query to avoid unnecessary API calls by waiting for the user to stop typing for 500ms(0.5 seconds)
     useDebounce(() => {
         setDebouncedSearchQuery(searchQuery);
     }, 1000, [searchQuery]);
 
-    const fetchMovies = async(query = '') => {
+    const fetchMovies = async(query = '', page = 1) => {
         setIsLoading(true);
         setErrorMessage('');
 
         try {
-        const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+        const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&page=${page}` : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${page}`;
 
         const response = await fetch(endpoint, API_OPTIONS);
         if(!response.ok) {
@@ -32,6 +37,7 @@ export const Home = ({ onMovieClick }) => {
         }
 
         const data = await response.json();
+        console.log(data);
 
         if(data.response === 'False') {
             setErrorMessage(data.Error || 'Failed to fetch movies');
@@ -39,6 +45,8 @@ export const Home = ({ onMovieClick }) => {
             return;
         }
         setAllMovies(data.results || []);
+        setTotalPages(data.total_pages || 0); // store the number of pages
+        setTotalMovies(data.total_results || 0); // store the number of movie results
 
         if (query && data.results.length > 0) {
             await updateSearchCount(query, data.results[0]);
@@ -46,31 +54,46 @@ export const Home = ({ onMovieClick }) => {
 
         }
         catch(error) {
-        console.error(`Error fetching movies: ${error}`);
-        setErrorMessage('Error fetching movies. Please try again later.');
+            console.error(`Error fetching movies: ${error}`);
+            setErrorMessage('Error fetching movies. Please try again later.');
         }
         finally {
-        setIsLoading(false);
+            setIsLoading(false);
         }
     }
 
     const fetchTrendingMovies = async() => {
         try {
-        const movies = await getTrendingMovies();
-        setTrendingMovies(movies);
+            const movies = await getTrendingMovies();
+            setTrendingMovies(movies);
         }
         catch(error) {
-        console.error(`Error fetching trending movies: ${error}`);
+            console.error(`Error fetching trending movies: ${error}`);
         }
     }
 
     useEffect(() => {
-        fetchMovies(debouncedSearchQuery);
-    }, [debouncedSearchQuery]);
+        fetchMovies(debouncedSearchQuery, currentPage);
+    }, [debouncedSearchQuery, currentPage]);
 
     useEffect(() => {
         fetchTrendingMovies();
     }, []);
+
+    // Pagination Functions
+    const goToNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(prevPage => prevPage + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
 
 
     return (
@@ -102,19 +125,55 @@ export const Home = ({ onMovieClick }) => {
             )}
 
             <section className='all-movies'>
-            <h2>All Movies</h2>
-            {isLoading ? (
-                <Spinner />
-            ) : errorMessage ? (
-                <p className='text-red-500'>{errorMessage}</p>
-            ) : (
-                <ul>
-                {allMovies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} onClick={() => onMovieClick(movie.id)}/>
-                ))}
-                </ul>
-            )
-            }
+                <h2>All Movies</h2>
+                {isLoading ? (
+                    <Spinner />
+                ) : errorMessage ? (
+                    <p className='text-red-500'>{errorMessage}</p>
+                ) : (
+                    <ul>
+                    {allMovies.map((movie) => (
+                        <MovieCard key={movie.id} movie={movie} onClick={() => onMovieClick(movie.id)}/>
+                    ))}
+                    </ul>
+                )
+                }
+                
+                {totalPages > 1 && (
+                    <div className="pagination">
+                        {/* Previous Button */}
+                        <button 
+                            className="pagination-btn"
+                            onClick={goToPreviousPage}
+                            disabled={currentPage === 1}
+                        >
+                            ← Previous
+                        </button>
+                        
+                        {/* Page Number */}
+                        <span className="page-info">
+                            <span className="page-no">
+                                Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
+                            </span>
+                            {totalMovies > 0 && (
+                                <p className="results-count">
+                                    Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{totalMovies.toLocaleString()}</strong> movies
+                                </p>
+                            )}
+
+                        </span>
+
+                        {/* Next Button */}
+                        <button 
+                            className="pagination-btn"
+                            onClick={goToNextPage}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next →
+                        </button>
+                    </div>
+                )
+                }
             </section>
 
         </div>
