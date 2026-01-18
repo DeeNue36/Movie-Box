@@ -35,7 +35,7 @@ export const updateSearchCount = async (searchQuery, movie) => {
                 }
             });
         }
-        // 3. If it doesn't, create a new movie object with the search query and set search count to 1
+        // 3. If the movie has not been searched before, create a new movie object with the search query and set search count to 1
         else {
             await tablesDB.createRow({
                 databaseId: DATABASE_ID,
