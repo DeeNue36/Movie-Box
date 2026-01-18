@@ -164,11 +164,11 @@ export const Home = ({ onMovieClick }) => {
                         {/* Page Number */}
                         <span className="page-info">
                             <span className="page-no">
-                                Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
+                                Page <strong>{currentPage}</strong> of <strong>{Math.min(totalPages, 64)}</strong>
                             </span>
                             {totalMovies > 0 && (
                                 <p className="results-count">
-                                    Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{totalMovies.toLocaleString()}</strong> movies
+                                    Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{Math.min(totalPages, 64) * 20}</strong> movies
                                 </p>
                             )}
 
@@ -178,7 +178,7 @@ export const Home = ({ onMovieClick }) => {
                         <button 
                             className="pagination-btn"
                             onClick={goToNextPage}
-                            disabled={currentPage === totalPages}
+                            disabled={currentPage >= Math.min(totalPages, 64)}
                         >
                             Next →
                         </button>
