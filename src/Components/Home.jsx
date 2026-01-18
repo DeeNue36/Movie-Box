@@ -119,103 +119,102 @@ export const Home = ({ onMovieClick }) => {
 
     return (
         <main>
-        <div className="pattern" />
+            <div className="pattern" />
 
-        <div className="container">
-            <header>
-            <img src="/hero-img.png" alt="Hero Banner" />
-            <h1>
-                Find <span className='text-gradient'>Movies</span> You Love To Watch Without the Hassle
-            </h1>
+            <div className="container">
+                <header>
+                <img src="/hero-img.png" alt="Hero Banner" />
+                <h1>
+                    Find <span className='text-gradient'>Movies</span> You Love To Watch Without the Hassle
+                </h1>
 
-            <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            </header>
+                <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                </header>
 
-            {trendingMovies.length > 0 && (
-            <section className='trending-movies'>
-                <h2>Trending Movies</h2>
-                <ul>
-                {trendingMovies.map((movie, index) => (
-                    <li key={movie.$id}>
-                    <p>{index + 1}</p>
-                    <img src={movie.poster_url} alt={movie.title} />
-                    </li>
-                ))}
-                </ul>
-            </section>
-            )}
-
-            <section className='all-movies'>
-                <h2>All Movies</h2>
-                {isLoading ? (
-                    <Spinner />
-                ) : errorMessage ? (
-                    <p className='text-red-500'>{errorMessage}</p>
-                ) : (
+                {trendingMovies.length > 0 && (
+                <section className='trending-movies'>
+                    <h2>Trending Movies</h2>
                     <ul>
-                    {allMovies.map((movie) => (
-                        <MovieCard key={movie.id} movie={movie} onClick={() => onMovieClick(movie.id)}/>
+                    {trendingMovies.map((movie, index) => (
+                        <li key={movie.$id}>
+                        <p>{index + 1}</p>
+                        <img src={movie.poster_url} alt={movie.title} />
+                        </li>
                     ))}
                     </ul>
-                )
-                }
-                
-                {totalPages > 1 && (
-                    <div className="pagination">
-                        {/* Skip to First Page Button */}
-                        <button 
-                            className="pagination-btn"
-                            onClick={skipToFirstPage}
-                            disabled={currentPage === 1}
-                        >
-                            ← First Page
-                        </button>
+                </section>
+                )}
 
-                        {/* Previous Button */}
-                        <button 
-                            className="pagination-btn"
-                            onClick={goToPreviousPage}
-                            disabled={currentPage === 1}
-                        >
-                            ← Previous
-                        </button>
-                        
-                        {/* Page Number */}
-                        <span className="page-info">
-                            <span className="page-no">
-                                Page <strong>{currentPage}</strong> of <strong>{Math.min(totalPages, 64)}</strong>
-                            </span>
-                            {totalMovies > 0 && (
-                                <p className="results-count">
-                                    Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{Math.min(totalPages, 64) * 20}</strong> movies
-                                </p>
-                            )}
+                <section className='all-movies'>
+                    <h2>All Movies</h2>
+                    {isLoading ? (
+                        <Spinner />
+                    ) : errorMessage ? (
+                        <p className='text-red-500'>{errorMessage}</p>
+                    ) : (
+                        <ul>
+                        {allMovies.map((movie) => (
+                            <MovieCard key={movie.id} movie={movie} onClick={() => onMovieClick(movie.id)}/>
+                        ))}
+                        </ul>
+                    )
+                    }
+                </section>
+            </div>
 
+            {totalPages > 1 && (
+                <section className="pagination">
+                    {/* Skip to First Page Button */}
+                    <button 
+                        className="pagination-btn"
+                        onClick={skipToFirstPage}
+                        disabled={currentPage === 1}
+                    >
+                        ← First Page
+                    </button>
+
+                    {/* Previous Button */}
+                    <button 
+                        className="pagination-btn"
+                        onClick={goToPreviousPage}
+                        disabled={currentPage === 1}
+                    >
+                        ← Previous
+                    </button>
+                    
+                    {/* Page Number */}
+                    <span className="page-info">
+                        <span className="page-no">
+                            Page <strong>{currentPage}</strong> of <strong>{Math.min(totalPages, 64)}</strong>
                         </span>
+                        {totalMovies > 0 && (
+                            <p className="results-count">
+                                Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{Math.min(totalPages, 64) * 20}</strong> movies
+                            </p>
+                        )}
 
-                        {/* Next Button */}
-                        <button 
-                            className="pagination-btn"
-                            onClick={goToNextPage}
-                            disabled={currentPage >= Math.min(totalPages, 64)}
-                        >
-                            Next →
-                        </button>
+                    </span>
 
-                        {/* Skip to Last Page Button */}
-                        <button 
-                            className="pagination-btn"
-                            onClick={skipToLastPage}
-                            disabled={currentPage >= Math.min(totalPages, 64)}
-                        >
-                            Last Page  →
-                        </button>
-                    </div>
-                )
-                }
-            </section>
+                    {/* Next Button */}
+                    <button 
+                        className="pagination-btn"
+                        onClick={goToNextPage}
+                        disabled={currentPage >= Math.min(totalPages, 64)}
+                    >
+                        Next →
+                    </button>
 
-        </div>
+                    {/* Skip to Last Page Button */}
+                    <button 
+                        className="pagination-btn"
+                        onClick={skipToLastPage}
+                        disabled={currentPage >= Math.min(totalPages, 64)}
+                    >
+                        Last Page  →
+                    </button>
+                </section>
+            )
+            }
         </main>
     )
 }
