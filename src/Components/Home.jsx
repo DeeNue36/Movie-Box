@@ -106,6 +106,16 @@ export const Home = ({ onMovieClick }) => {
         }
     };
 
+    const skipToLastPage = () => {
+        setCurrentPage(Math.min(totalPages, 64));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const skipToFirstPage = () => {
+        setCurrentPage(1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
 
     return (
         <main>
@@ -152,6 +162,15 @@ export const Home = ({ onMovieClick }) => {
                 
                 {totalPages > 1 && (
                     <div className="pagination">
+                        {/* Skip to First Page Button */}
+                        <button 
+                            className="pagination-btn"
+                            onClick={skipToFirstPage}
+                            disabled={currentPage === 1}
+                        >
+                            ← First Page
+                        </button>
+
                         {/* Previous Button */}
                         <button 
                             className="pagination-btn"
@@ -181,6 +200,15 @@ export const Home = ({ onMovieClick }) => {
                             disabled={currentPage >= Math.min(totalPages, 64)}
                         >
                             Next →
+                        </button>
+
+                        {/* Skip to Last Page Button */}
+                        <button 
+                            className="pagination-btn"
+                            onClick={skipToLastPage}
+                            disabled={currentPage >= Math.min(totalPages, 64)}
+                        >
+                            Last Page  →
                         </button>
                     </div>
                 )
