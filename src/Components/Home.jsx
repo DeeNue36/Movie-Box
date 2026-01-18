@@ -91,29 +91,34 @@ export const Home = ({ onMovieClick }) => {
         fetchTrendingMovies();
     }, []);
 
+    // Scroll to top when page changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
     // Pagination Functions
     const goToNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(prevPage => prevPage + 1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
     const goToPreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(prevPage => prevPage - 1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
     const skipToLastPage = () => {
-        setCurrentPage(Math.min(totalPages, 64));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (currentPage < (Math.min(totalPages, 64))) {
+            setCurrentPage(Math.min(totalPages, 64));
+        }
     }
 
     const skipToFirstPage = () => {
-        setCurrentPage(1);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (currentPage > 1) {
+            setCurrentPage(1);
+        }
     }
 
 
