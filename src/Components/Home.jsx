@@ -160,61 +160,63 @@ export const Home = ({ onMovieClick }) => {
                     )
                     }
                 </section>
+
+                {totalPages > 1 && (
+                    <section className="pagination">
+                        <div className="previous-buttons">
+                            {/* Skip to First Page Button */}
+                            <button
+                                className="pagination-btn"
+                                onClick={skipToFirstPage}
+                                disabled={currentPage === 1}
+                            >
+                                ← First Page
+                            </button>
+                            {/* Previous Button */}
+                            <button
+                                className="pagination-btn"
+                                onClick={goToPreviousPage}
+                                disabled={currentPage === 1}
+                            >
+                                ← Previous
+                            </button>
+                        </div>
+                        
+                        {/* Page Number */}
+                        <span className="page-info">
+                            <span className="page-no">
+                                Page <strong>{currentPage}</strong> of <strong>{Math.min(totalPages, 64)}</strong>
+                            </span>
+                            {totalMovies > 0 && (
+                                <p className="results-count">
+                                    Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{Math.min(totalPages, 64) * 20}</strong> movies
+                                </p>
+                            )}
+                        </span>
+
+                        <div className="next-buttons">
+                            {/* Next Button */}
+                            <button
+                                className="pagination-btn"
+                                onClick={goToNextPage}
+                                disabled={currentPage >= Math.min(totalPages, 64)}
+                            >
+                                Next →
+                            </button>
+                            {/* Skip to Last Page Button */}
+                            <button
+                                className="pagination-btn"
+                                onClick={skipToLastPage}
+                                disabled={currentPage >= Math.min(totalPages, 64)}
+                            >
+                                Last Page  →
+                            </button>
+                        </div>
+                    </section>
+                )
+                }
             </div>
 
-            {totalPages > 1 && (
-                <section className="pagination">
-                    {/* Skip to First Page Button */}
-                    <button 
-                        className="pagination-btn"
-                        onClick={skipToFirstPage}
-                        disabled={currentPage === 1}
-                    >
-                        ← First Page
-                    </button>
-
-                    {/* Previous Button */}
-                    <button 
-                        className="pagination-btn"
-                        onClick={goToPreviousPage}
-                        disabled={currentPage === 1}
-                    >
-                        ← Previous
-                    </button>
-                    
-                    {/* Page Number */}
-                    <span className="page-info">
-                        <span className="page-no">
-                            Page <strong>{currentPage}</strong> of <strong>{Math.min(totalPages, 64)}</strong>
-                        </span>
-                        {totalMovies > 0 && (
-                            <p className="results-count">
-                                Showing {((currentPage - 1) * 20) + 1} - {Math.min(currentPage * 20, totalMovies)} of <strong>{Math.min(totalPages, 64) * 20}</strong> movies
-                            </p>
-                        )}
-
-                    </span>
-
-                    {/* Next Button */}
-                    <button 
-                        className="pagination-btn"
-                        onClick={goToNextPage}
-                        disabled={currentPage >= Math.min(totalPages, 64)}
-                    >
-                        Next →
-                    </button>
-
-                    {/* Skip to Last Page Button */}
-                    <button 
-                        className="pagination-btn"
-                        onClick={skipToLastPage}
-                        disabled={currentPage >= Math.min(totalPages, 64)}
-                    >
-                        Last Page  →
-                    </button>
-                </section>
-            )
-            }
         </main>
     )
 }
