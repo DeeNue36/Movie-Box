@@ -307,7 +307,15 @@
 
 /* Pagination Container */
 .pagination {
-    @apply flex justify-center items-center gap-8 flex-wrap mx-0 my-8 p-4;
+    @apply flex justify-center items-center gap-8 flex-wrap mx-0 my-8 p-4 max-[64rem]:flex-col max-[365px]:p-2 max-[365px]:gap-4 text-[0.88rem];
+
+    & .previous-buttons, .next-buttons {
+        @apply flex flex-row items-center gap-4 max-[64rem]:justify-between max-[48rem]:w-full max-[64rem]:w-[80%];
+    }
+
+    & .pagination-btn {
+        @apply max-[365px]:px-4
+    }
 }
 
 /* Page Info Container */
@@ -315,7 +323,6 @@
     @apply flex flex-col items-center gap-1;
 }
 .page-no {
-    /* @apply flex flex-col items-center gap-1; */
     @apply text-center text-[#9ca3af] text-[0.9rem];
 }
 
