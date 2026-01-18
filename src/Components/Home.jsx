@@ -42,6 +42,8 @@ export const Home = ({ onMovieClick }) => {
         if(data.response === 'False') {
             setErrorMessage(data.Error || 'Failed to fetch movies');
             setAllMovies([]);
+            setTotalPages(0);
+            setTotalMovies(0);
             return;
         }
         setAllMovies(data.results || []);
@@ -50,6 +52,14 @@ export const Home = ({ onMovieClick }) => {
 
         if (query && data.results.length > 0) {
             await updateSearchCount(query, data.results[0]);
+        }
+
+        //Check if search query returns no results
+        if (query && (!data.results || data.results.length === 0)) {
+            setErrorMessage(`No results found for "${query}". Please try a different search term.`);
+            setAllMovies([]);
+            setTotalPages(0);
+            setTotalMovies(0);
         }
 
         }
@@ -69,6 +79,7 @@ export const Home = ({ onMovieClick }) => {
         }
         catch(error) {
             console.error(`Error fetching trending movies: ${error}`);
+            setErrorMessage('Error fetching trending movies. Please try again later.');
         }
     }
 
