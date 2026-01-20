@@ -37,7 +37,6 @@ export const Home = ({ onMovieClick }) => {
         }
 
         const data = await response.json();
-        console.log(data);
 
         if(data.response === 'False') {
             setErrorMessage(data.Error || 'Failed to fetch movies');
