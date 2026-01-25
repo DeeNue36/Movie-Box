@@ -10,4 +10,4 @@ const API_OPTIONS = {
     }
 }
 
-export { API_BASE_URL, API_KEY, API_OPTIONS }
+export { API_BASE_URL, API_OPTIONS }
